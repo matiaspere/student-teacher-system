@@ -1,6 +1,8 @@
-import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
-import {useStateContext} from '../../context/ContextProvider';
+import React from "react";
+import { Outlet, Navigate } from "react-router-dom";
+import { useStateContext } from "../../context/ContextProvider";
+import Navbar from "../components/Navbar";
+
 
 const DefaultLayout = () => {
     const { user, token, setUser, setToken } = useStateContext();
@@ -9,12 +11,12 @@ const DefaultLayout = () => {
         return <Navigate to="/login" />;
     }
 
-  return (
-    <div>
-        Defalut
-        <Outlet/>
-    </div>
-  )
-}
+    return (
+        <div>
+            <Navbar />
+            <Outlet />
+        </div>
+    );
+};
 
-export default DefaultLayout
+export default DefaultLayout;
