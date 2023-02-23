@@ -1,5 +1,6 @@
 import React from "react";
 import image from "../images/pexels-polina-zimmerman-3747140.jpg";
+import { Link } from "react-router-dom";
 // import {
 //     CForm,
 //     CFormLabel,
@@ -57,9 +58,15 @@ const Login = () => {
                                     id="exampleInputPassword1"
                                 />
                             </div>
-                            <button type="submit" class="btn btn-primary">
-                                Submit
-                            </button>
+                            <div className="d-flex justify-content-between align-items-center">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary w-25"
+                                    >
+                                        Submit
+                                    </button>
+                                    <Link to="/signup">not registered?</Link>
+                                </div>
                         </form>
                     </div>
                 </div>
