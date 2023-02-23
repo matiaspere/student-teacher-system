@@ -1,19 +1,51 @@
-import React from "react";
+import React, {useState, useRef} from "react";
 import image from "../images/pexels-polina-zimmerman-3747140.jpg";
 import { Link } from "react-router-dom";
-// import {
-//     CForm,
-//     CFormLabel,
-//     CFormInput,
-//     CFormText,
-//     CButton,
-//     CFormCheck,
-//     CCol,
-//     CContainer,
-//     CRow,
-// } from "@coreui/bootstrap-react";
+import { useStateContext } from "../../context/ContextProvider";
+import axiosClient from "../axios-client";
 
 const Login = () => {
+    const form = useRef(null);
+    const [errors, setErrors] = useState([]);
+    const { setUser, setToken } = useStateContext();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(form.current);
+
+        const payload = {
+            email: formData.get("email"),
+            password: formData.get("password"),
+        };
+
+        axiosClient
+            .post("/auth/login", payload)
+            .then(({ data }) => {
+                if (data.errors) {
+                    const errorJson = JSON.parse(data.errors);
+                    console.log(errorJson)
+                    setErrors(errorJson);
+                } else if (data.access_token) {
+                    setToken(data.access_token);
+                    setUser(data.user);
+                    console.log(data);
+                } else {
+                    const errorObjet = {
+                        error: [data],
+                    };
+                    console.log(errorObjet)
+                    setErrors(errorObjet);
+                }
+            })
+            .catch((err) => {
+                const response = err.response;
+                if (response && response.status === 422) {
+                    // error de validacion
+                    console.log(response.data.errors);
+                }
+            });
+    };
+
     return (
         <div>
             <div className="container">
@@ -25,48 +57,50 @@ const Login = () => {
                         />
                     </div>
                     <div className="col-6 d-flex align-items-center justify-content-start">
-                        <form>
+                        <form ref={form} onSubmit={onSubmit}>
                             <h4>Login</h4>
-                            <div class="mb-3">
+                            <div className="mb-3">
                                 <label
                                     for="exampleInputEmail1"
-                                    class="form-label"
+                                    className="form-label"
                                 >
                                     Email address
                                 </label>
                                 <input
                                     type="email"
-                                    class="form-control"
+                                    className="form-control"
                                     id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
+                                    name="email"
                                 />
-                                <div id="emailHelp" class="form-text">
+                                <div id="emailHelp" className="form-text">
                                     We'll never share your email with anyone
                                     else.
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            <div className="mb-3">
                                 <label
                                     for="exampleInputPassword1"
-                                    class="form-label"
+                                    className="form-label"
                                 >
                                     Password
                                 </label>
                                 <input
                                     type="password"
-                                    class="form-control"
+                                    className="form-control"
                                     id="exampleInputPassword1"
+                                    name="password"
                                 />
                             </div>
                             <div className="d-flex justify-content-between align-items-center">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary w-25"
-                                    >
-                                        Submit
-                                    </button>
-                                    <Link to="/signup">not registered?</Link>
-                                </div>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary w-25"
+                                >
+                                    Submit
+                                </button>
+                                <Link to="/signup">not registered?</Link>
+                            </div>
                         </form>
                     </div>
                 </div>

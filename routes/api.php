@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\RolesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +23,7 @@ use App\Http\Controllers\AuthController;
 // });
 
 
+// Autenticacion
 Route::group([
 
     'middleware' => 'api',
@@ -33,3 +36,8 @@ Route::group([
     Route::get('user', 'App\Http\Controllers\AuthController@user');
     Route::post('signup', 'App\Http\Controllers\AuthController@signup');
 });
+
+// Roles
+Route::get('/roles', [RolesController::class, 'index']);
+
+// Usuarios
