@@ -22,7 +22,24 @@ const Signup = () => {
             rol_type: formData.get("rol_type")
         };
 
-        console.log(payload)
+        axiosClient
+            .post("/auth/signup", payload)
+            .then(({ data }) => {
+                if (data.errors) {
+                    const errorJson = JSON.parse(data.errors);
+                    setErrors(errorJson);
+                } else {
+                    setUser(data.user);
+                    setUserCreated(true);
+                }
+            })
+            .catch((err) => {
+                const response = err.response;
+                if (response && response.status === 422) {
+                    // error de validacion
+                    console.log(response.data.errors);
+                }
+            });
     };
 
     return (
