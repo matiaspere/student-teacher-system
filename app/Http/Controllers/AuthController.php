@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserRol;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -28,9 +29,9 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|string|email|max:100|unique:users',
-            'rol_type' => 'required|string',
             'password' => 'required|string|min:6',
-            'password_confirmation' => 'required|same:password'
+            'password_confirmation' => 'required|same:password',
+            'user_rols_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -39,16 +40,17 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = User::create(
-            array_merge(
-                $validator->validate(),
-                ['password' => bcrypt($request->password)]
-            )
-        );
+        $user_rol = UserRol::findOrFail($request->user_rols_id);
 
+        $user = $user_rol->users()->create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'user_rols_id' => $request->user_rols_id,
+        ]);
+        // dd($user);
         return response([
             'user' => $user,
-
         ], 201);
     }
     /**
@@ -70,8 +72,10 @@ class AuthController extends Controller
         }
 
         $credentials = request(['email', 'password']);
+        // dd($credentials);
         if (!$token = auth()->attempt($credentials)) {
             $errors = 'User or password incorrect';
+            // dd($token);
             return response()->json($errors);
         }
 
