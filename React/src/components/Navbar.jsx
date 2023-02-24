@@ -17,7 +17,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Navbar = () => {
     const { user, setUser, setToken } = useStateContext();
-    // const [visible, setVisible] = useState(false);
 
     const onLogout = (e) => {
         e.preventDefault();
@@ -30,13 +29,13 @@ const Navbar = () => {
 
     return (
         <div>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark navbar-dark">
-                <div class="container-fluid navbar1">
-                    <a class="navbar-brand nav-text" href="#">
+            <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
+                <div className="container-fluid navbar1">
+                    <a className="navbar-brand nav-text" href="#">
                         LOGO
                     </a>
                     <button
-                        class="navbar-toggler"
+                        className="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarNav"
@@ -44,23 +43,48 @@ const Navbar = () => {
                         aria-expanded="false"
                         aria-label="Toggle navigation"
                     >
-                        <span class="navbar-toggler-icon"></span>
+                        <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
+                    <div
+                        className="collapse navbar-collapse"
+                        id="navbarSupportedContent"
+                    >
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li className="nav-item">
                                 <a
-                                    class="nav-link active nav-text"
+                                    className="nav-link active"
+                                    aria-current="page"
+                                    href="/user"
+                                >
+                                    Profile
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a
+                                    className="nav-link active"
+                                    aria-current="page"
+                                    href="/listing"
+                                >
+                                    {user?.user_rols_id === 1 ? 'Teachers' : "Students"}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav ms-auto">
+                            <li className="nav-item">
+                                <a
+                                    className="nav-link active nav-text"
                                     aria-current="page"
                                     href="#"
                                 >
                                     {user?.name}
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li className="nav-item">
                                 <a
                                     role="button"
-                                    class="nav-link nav-text"
+                                    className="nav-link nav-text"
                                     onClick={onLogout}
                                 >
                                     Logout
@@ -70,7 +94,6 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
-
         </div>
     );
 };

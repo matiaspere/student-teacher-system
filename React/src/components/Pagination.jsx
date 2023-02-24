@@ -18,14 +18,14 @@ const Pagination = ({ setPaginate, paginate, setPage, page, usersData}) => {
     return (
         <div>
             <nav aria-label="">
-                <ul class="pagination pagination-sm">
-                    <li class={page === 1 ? "page-item disabled" : "page-item"} onClick={prevPage}>
-                        <a class="page-link" href="#">
+                <ul className="pagination pagination-sm">
+                    <li className={page === 1 ? "page-item disabled" : "page-item"} onClick={prevPage}>
+                        <a className="page-link" href="#">
                             Previous
                         </a>
                     </li>
                     {pages.map((page) => (
-                        <li
+                        <li key={page}
                             className={
                                 page === paginate
                                     ? "page-item active"
@@ -33,20 +33,20 @@ const Pagination = ({ setPaginate, paginate, setPage, page, usersData}) => {
                             }
                             onClick={() => setPaginate(page)}
                         >
-                            <a class="page-link" href="#">
+                            <a className="page-link" href="#">
                                 {page}
                             </a>
                         </li>
                     ))}
-                    <li class={page === usersData.last_page ? "page-item disabled" : "page-item"} onClick={nextPage}>
-                        <a class="page-link" href="#">
+                    <li className={page === usersData.last_page ? "page-item disabled" : "page-item"} onClick={nextPage}>
+                        <a className="page-link" href="#">
                             Next
                         </a>
                     </li>
                 </ul>
             </nav>
             <nav aria-label="Page navigation example">
-                <ul class="pagination"></ul>
+                <ul className="pagination"></ul>
             </nav>
         </div>
     );

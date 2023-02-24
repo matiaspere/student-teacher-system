@@ -6,29 +6,16 @@ import Navbar from "../components/Navbar";
 
 
 const DefaultLayout = () => {
-    const { user, token, setUser } = useStateContext();
+    const { token, setUser } = useStateContext();
 
     if (!token) {
         return <Navigate to="/login" />;
     }
 
-    useEffect(() => {
-        axiosClient
-            .get("/auth/user")
-            .then(({ data }) => {
-                setUser(data);
-                // console.log(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
-
-
 
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <Outlet />
         </div>
     );
