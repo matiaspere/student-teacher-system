@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,3 +44,6 @@ Route::get('/roles', [RolesController::class, 'index']);
 
 // Usuarios
 Route::get('/users/{user_rols_id}/{paginate}', [UsersController::class, 'index']);
+
+// Listing
+Route::get('/listing/{paginate}', [ListingController::class, 'index']);

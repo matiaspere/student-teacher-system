@@ -57,16 +57,20 @@ const Navbar = () => {
                                     {user?.name}
                                 </a>
                             </li>
-                            <li class="nav-item" >
-                                <a role="button" class="nav-link nav-text" onClick={onLogout}>
+                            <li class="nav-item">
+                                <a
+                                    role="button"
+                                    class="nav-link nav-text"
+                                    onClick={onLogout}
+                                >
                                     Logout
                                 </a>
                             </li>
-
                         </ul>
                     </div>
                 </div>
             </nav>
+
         </div>
     );
 };
