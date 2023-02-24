@@ -1,6 +1,6 @@
-import React, {useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import image from "../images/pexels-polina-zimmerman-3747140.jpg";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import axiosClient from "../axios-client";
 
@@ -9,7 +9,7 @@ const Login = () => {
     const [errors, setErrors] = useState([]);
     const { setUser, setToken } = useStateContext();
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(form.current);
 
@@ -18,22 +18,27 @@ const Login = () => {
             password: formData.get("password"),
         };
 
-        axiosClient
+        await axiosClient
             .post("/auth/login", payload)
             .then(({ data }) => {
                 if (data.errors) {
                     const errorJson = JSON.parse(data.errors);
-                    console.log(errorJson)
+                    console.log(errorJson);
                     setErrors(errorJson);
                 } else if (data.access_token) {
                     setToken(data.access_token);
                     setUser(data.user);
                     console.log(data);
+                    if (data.user.user_rols_id === 1) {
+                        return <Navigate to="/teacher"/>
+                    } else {
+                        return <Navigate to="/student"/>
+                    }
                 } else {
                     const errorObjet = {
                         error: [data],
                     };
-                    console.log(errorObjet)
+                    console.log(errorObjet);
                     setErrors(errorObjet);
                 }
             })
@@ -59,6 +64,18 @@ const Login = () => {
                     <div className="col-6 d-flex align-items-center justify-content-start">
                         <form ref={form} onSubmit={onSubmit}>
                             <h4>Login</h4>
+                            {errors && (
+                                <div>
+                                    {Object.keys(errors).map((i) => (
+                                        <div
+                                            key={i}
+                                            className="p-2 mb-2 bg-danger text-white rounded"
+                                        >
+                                            {errors[i][0]}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                             <div className="mb-3">
                                 <label
                                     for="exampleInputEmail1"

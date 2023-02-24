@@ -1,46 +1,72 @@
 import React from "react";
 import { useState } from "react";
-import {CNavbar, CNavbarNav, CContainer, CNavbarBrand, CNavbarToggler, CCollapse, CNavItem, CNavLink} from '@coreui/bootstrap-react';
+import { Navigate } from "react-router-dom";
+import {
+    CNavbar,
+    CNavbarNav,
+    CContainer,
+    CNavbarBrand,
+    CNavbarToggler,
+    CCollapse,
+    CNavItem,
+    CNavLink,
+} from "@coreui/bootstrap-react";
+import { useStateContext } from "../../context/ContextProvider";
+import axiosClient from "../axios-client";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
 const Navbar = () => {
-    const [visible, setVisible] = useState(false);
+    const { user, setUser, setToken } = useStateContext();
+    // const [visible, setVisible] = useState(false);
+
+    const onLogout = (e) => {
+        e.preventDefault();
+        axiosClient.post("/auth/logout").then(() => {
+            setUser({});
+            setToken(null);
+            return <Navigate to="/login" />;
+        });
+    };
 
     return (
         <div>
-            <CNavbar expand="lg" colorScheme="light" className="bg-light">
-                <CContainer fluid>
-                    <CNavbarBrand href="#">
-                        <img style={{width: 35}} src="https://educacion30.b-cdn.net/wp-content/uploads/2016/11/additio-app-logo.png"/>
-                    </CNavbarBrand>
-                    <CNavbarToggler
+            <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark navbar-dark">
+                <div class="container-fluid navbar1">
+                    <a class="navbar-brand nav-text" href="#">
+                        LOGO
+                    </a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
                         aria-label="Toggle navigation"
-                        aria-expanded={visible}
-                        onClick={() => setVisible(!visible)}
-                    />
-                    <CCollapse className="navbar-collapse" visible={visible}>
-                        <CNavbarNav>
-                            <CNavItem>
-                                <CNavLink href="#" active>
-                                    Home
-                                </CNavLink>
-                            </CNavItem>
-                            <CNavItem>
-                                <CNavLink href="#">Features</CNavLink>
-                            </CNavItem>
-                            <CNavItem>
-                                <CNavLink href="#">Pricing</CNavLink>
-                            </CNavItem>
-                            <CNavItem>
-                                <CNavLink href="#" disabled>
-                                    Disabled
-                                </CNavLink>
-                            </CNavItem>
-                        </CNavbarNav>
-                    </CCollapse>
-                </CContainer>
-            </CNavbar>
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link active nav-text"
+                                    aria-current="page"
+                                    href="#"
+                                >
+                                    {user?.name}
+                                </a>
+                            </li>
+                            <li class="nav-item" >
+                                <a role="button" class="nav-link nav-text" onClick={onLogout}>
+                                    Logout
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
     );
 };

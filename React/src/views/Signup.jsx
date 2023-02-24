@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import axiosClient from "../axios-client";
@@ -8,7 +8,23 @@ const Signup = () => {
     const form = useRef(null);
     const { setUser } = useStateContext();
     const [userCreated, setUserCreated] = useState(false);
+    const [roles, setRoles] = useState([]);
     const [errors, setErrors] = useState([]);
+
+    useEffect(() => {
+        async function getRoles() {
+            await axiosClient
+                .get("/roles")
+                .then((data) => {
+                    setRoles(data.data.roles);
+                    console.log(data.data.roles);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        getRoles()
+    }, []);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -19,7 +35,7 @@ const Signup = () => {
             email: formData.get("email"),
             password: formData.get("password"),
             password_confirmation: formData.get("password_confirmation"),
-            rol_type: formData.get("rol_type")
+            user_rols_id: formData.get("user_rols_id"),
         };
 
         axiosClient
@@ -138,16 +154,21 @@ const Signup = () => {
                                     </label>
                                     <select
                                         className="form-select"
-                                        name="rol_type"
                                         id="userTypeRegister"
+                                        name="user_rols_id"
                                     >
                                         <option selected>- Select - </option>
-                                        <option value={"student"}>
+                                        {roles.map((rol) => (
+                                            <option value={rol.id}>
+                                                {rol.description}
+                                            </option>
+                                        ))}
+                                        {/* <option value={"student"}>
                                             Student
                                         </option>
                                         <option value={"teacher"}>
                                             Teacher
-                                        </option>
+                                        </option> */}
                                     </select>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">

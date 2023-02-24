@@ -15,10 +15,10 @@ class UserRolSeeder extends Seeder
     public function run(): void
     {
         DB::table('user_rols')->insert([
-            'description' => 'teacher',
+            'description' => 'Teacher',
         ]);
         DB::table('user_rols')->insert([
-            'description' => 'student',
+            'description' => 'Student',
         ]);
     }
 }
