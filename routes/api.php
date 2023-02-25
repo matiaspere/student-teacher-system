@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeControler;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -47,3 +48,6 @@ Route::get('/users/{user_rols_id}/{paginate}', [UsersController::class, 'index']
 
 // Listing
 Route::get('/listing/{paginate}', [ListingController::class, 'index']);
+
+// Home
+Route::get('/home/{value}/{paginate}', [HomeControler::class, 'index']);
