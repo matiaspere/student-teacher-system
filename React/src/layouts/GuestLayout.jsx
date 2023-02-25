@@ -6,11 +6,9 @@ import { useStateContext } from "../../context/ContextProvider";
 const GuestLayout = () => {
     const { token } = useStateContext();
 
-    if (token) {
-        return <Navigate to="/" />;
-    }
+
     return (
-        <div className="col-auto p-5 h-100">
+        <div className="col-auto p-2">
             <Outlet />
         </div>
     );

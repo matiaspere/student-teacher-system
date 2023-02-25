@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import axiosClient from "../axios-client";
 import image from "../images/pexels-polina-zimmerman-3747140.jpg";
 
 const Signup = () => {
     const form = useRef(null);
-    const { setUser } = useStateContext();
+    const { setUser, token } = useStateContext();
     const [userCreated, setUserCreated] = useState(false);
     const [roles, setRoles] = useState([]);
     const [errors, setErrors] = useState([]);
 
+    if (token) {
+        return <Navigate to="/" />;
+    }
     useEffect(() => {
         async function getRoles() {
             await axiosClient

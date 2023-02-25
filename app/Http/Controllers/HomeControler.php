@@ -12,6 +12,14 @@ class HomeControler extends Controller
      */
     public function index($value, $paginate)
     {
+
+        if ($value == "null") {
+            $users = User::paginate($paginate);
+            return response()->json([
+                "users" => $users,
+            ]);
+        }
+
         $users = User::where('name', 'LIKE', "%$value%")
             ->orWhere('email', 'LIKE', "%$value%")
             ->paginate($paginate);

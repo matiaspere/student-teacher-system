@@ -7,7 +7,11 @@ import axiosClient from "../axios-client";
 const Login = () => {
     const form = useRef(null);
     const [errors, setErrors] = useState([]);
-    const { setUser, setToken } = useStateContext();
+    const { setUser, setToken, token } = useStateContext();
+
+    if (token) {
+        return <Navigate to="/" />;
+    }
 
     const onSubmit = async (e) => {
         e.preventDefault();

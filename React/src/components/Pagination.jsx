@@ -1,8 +1,7 @@
 import React from "react";
 
-const Pagination = ({ setPaginate, paginate, setPage, page, usersData}) => {
+const Pagination = ({ setPaginate, paginate, setPage, page, usersData }) => {
     const pages = [10, 25, 50, 100];
-
 
     const prevPage = () => {
         if (page > 1) {
@@ -10,22 +9,28 @@ const Pagination = ({ setPaginate, paginate, setPage, page, usersData}) => {
         }
     };
     const nextPage = () => {
-       if (page < usersData.last_page){
-           setPage(page + 1)
-       }
+        if (page < usersData.users.last_page) {
+            setPage(page + 1);
+        }
     };
 
     return (
         <div>
             <nav aria-label="">
                 <ul className="pagination pagination-sm">
-                    <li className={page === 1 ? "page-item disabled" : "page-item"} onClick={prevPage}>
+                    <li
+                        className={
+                            page === 1 ? "page-item disabled" : "page-item"
+                        }
+                        onClick={prevPage}
+                    >
                         <a className="page-link" href="#">
                             Previous
                         </a>
                     </li>
                     {pages.map((page) => (
-                        <li key={page}
+                        <li
+                            key={page}
                             className={
                                 page === paginate
                                     ? "page-item active"
@@ -38,7 +43,14 @@ const Pagination = ({ setPaginate, paginate, setPage, page, usersData}) => {
                             </a>
                         </li>
                     ))}
-                    <li className={page === usersData.last_page ? "page-item disabled" : "page-item"} onClick={nextPage}>
+                    <li
+                        className={
+                            page === usersData?.users?.last_page
+                                ? "page-item disabled"
+                                : "page-item"
+                        }
+                        onClick={nextPage}
+                    >
                         <a className="page-link" href="#">
                             Next
                         </a>
