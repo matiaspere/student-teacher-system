@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -47,3 +48,6 @@ Route::get('/users/{user_rols_id}/{paginate}', [UsersController::class, 'index']
 
 // Listing
 Route::get('/listing/{paginate}', [ListingController::class, 'index']);
+
+// Evaluations
+Route::post('/evaluations', [EvaluationController::class, 'store']);
