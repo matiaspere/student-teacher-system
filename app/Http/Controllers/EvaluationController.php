@@ -26,7 +26,22 @@ class EvaluationController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('crear-evaluacion');
 
+        $teacherId = $request->teacher_id;
+        $studentId = $request->student_id;
+        $nota = $request->nota;
+
+        $teacher = User::find($teacherId);
+        $student = User::find($studentId);
+
+        $evaluation = new Evaluations();
+        $evaluation->teacher()->associate($teacher);
+        $evaluation->student()->associate($student);
+        $evaluation->nota = $nota;
+        $evaluation->save();
+
+        return response()->json($evaluation, 201);
     }
 
     /**
