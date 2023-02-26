@@ -1,0 +1,14 @@
+.navbar-brand img {
+    max-height: 50px;
+}
+
+.navbar-nav.ml-auto .nav-link {
+    color: #0D4F94;
+    font-weight: bold;
+}
+
+.navbar-nav.ml-auto .nav-link.signup {
+    background-color: #0D4F94;
+    color: #fff;
+    border-radius: 5px;
+}
