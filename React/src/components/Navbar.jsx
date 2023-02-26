@@ -31,7 +31,7 @@ const Navbar = () => {
         <div>
             <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
                 <div className="container-fluid navbar1">
-                    <a className="navbar-brand nav-text" href="#">
+                    <a className="navbar-brand nav-text" href="/home">
                         LOGO
                     </a>
                     <button

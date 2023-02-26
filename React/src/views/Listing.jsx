@@ -46,9 +46,6 @@ const Listing = () => {
     return (
         <CContainer>
             <CRow className="align-items-start justify-content-center h-100 gx-5">
-                {/* <div className="col-3 bg-info" style={{height: "100vh"}}>
-                        cssandsanb
-                    </div> */}
                 <div className="container d-flex align-items-center justify-content-center">
                     <div className="my-5 container d-flex justify-content-center align-items-center w-100 flex-column">
                         <div className="container d-flex flex-row justify-content-between align-items-center">

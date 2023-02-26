@@ -7,8 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const User = () => {
     const { user, setUser } = useStateContext();
     const [evaluations, setEvaluations] = useState([]);
-    const [paginate, setPaginate] = useState(10);
-    const [page, setPage] = useState(1);
 
     const getUserData = async () => {
         const { data } = await axiosClient.get("/auth/user");

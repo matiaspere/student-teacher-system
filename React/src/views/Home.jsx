@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useStateContext } from "../../context/ContextProvider";
 import Pagination from "../components/Pagination";
 import "../styles/Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import image from "../images/recursos-humanos-el-valor-agregado-scaled.webp";
 
 const Home = () => {
+    const { user, token } = useStateContext();
     const [usersData, setUsersData] = useState([]);
     const [value, setValue] = useState(null);
     const [paginate, setPaginate] = useState(10);
@@ -46,6 +47,7 @@ const Home = () => {
         getUsers(value, paginate, page);
     }, [value, paginate, page]);
 
+    console.log(user);
     return (
         <>
             <nav class="navbar navbar-expand-lg bg-body-tertiary px-2">
@@ -69,17 +71,31 @@ const Home = () => {
                         <div>
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a
-                                        class="nav-link signup text-center"
-                                        href="#"
-                                    >
-                                        Sign up
-                                    </a>
+                                    {!token && (
+                                        <a
+                                            class="nav-link signup text-center"
+                                            href="/signup"
+                                        >
+                                            Sign up
+                                        </a>
+                                    )}
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-center" href="#">
-                                        Login
-                                    </a>
+                                    {token ? (
+                                        <a
+                                            class="nav-link text-center"
+                                            href="/user"
+                                        >
+                                            Profile
+                                        </a>
+                                    ) : (
+                                        <a
+                                            class="nav-link text-center"
+                                            href="/login"
+                                        >
+                                            Login
+                                        </a>
+                                    )}
                                 </li>
                             </ul>
                         </div>
