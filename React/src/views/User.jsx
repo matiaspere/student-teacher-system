@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { CContainer, CRow, CCol } from "@coreui/bootstrap-react";
 import { useStateContext } from "../../context/ContextProvider";
-import { Navigate } from "react-router-dom";
 import axiosClient from "../axios-client";
-import Pagination from "../components/Pagination";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const User = () => {
     const { user, setUser } = useStateContext();
-    const [usersData, setUsersData] = useState([]);
+    const [evaluations, setEvaluations] = useState([]);
     const [paginate, setPaginate] = useState(10);
     const [page, setPage] = useState(1);
 
+    const getUserData = async () => {
+        const { data } = await axiosClient.get("/auth/user");
+        setUser(data);
+
+        if (data.user_rols_id === 2) {
+            const userEvaluations = await axiosClient.get(
+                `/evaluations/${data.id}`
+            );
+            setEvaluations(userEvaluations.data.evaluations);
+        }
+    };
+
     useEffect(() => {
-        axiosClient
-            .get("/auth/user")
-            .then(({ data }) => {
-                setUser(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        getUserData();
     }, []);
 
     let rol;
@@ -32,41 +34,28 @@ const User = () => {
     }
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-4">
-                    <form className="my-5">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="exampleInputEmail1"
-                                value={user?.name}
-                            />
+        <div className="row">
+            <div className="col-4">
+                <div className="mb-3">
+                    <div>
+                        {user?.name}
+                        <div />
+                    </div>
+                    <div className="mb-3">
+                        <div>
+                            {user?.email}
+                            <div />
                         </div>
-                        <div class="mb-3">
-                            <label
-                                for="exampleInputPassword1"
-                                class="form-label"
-                            >
-                                Email
-                            </label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="exampleInputPassword1"
-                                value={user?.email}
-                            />
-                        </div>
-                        {/* <div class="mb-3">{rol}</div> */}
-                    </form>
+                        <div class="mb-3">{rol}</div>
+                    </div>
+                    <div className="col-8"></div>
                 </div>
-                <div className="col-8">
-                    <div className="container">ads</div>
-                </div>
+            </div>
+            <div>
+                {user?.user_rols_id === 2 &&
+                    evaluations.map((evaluation) => (
+                        <div>{evaluation.nota}</div>
+                    ))}
             </div>
         </div>
     );
