@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Evaluations;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class EvaluationController extends Controller
@@ -32,6 +34,17 @@ class EvaluationController extends Controller
         $studentId = $request->student_id;
         $nota = $request->nota;
 
+        $validator = Validator::make($request->all(), [
+            'teacher_id' => 'required',
+            'student_id' => 'required',
+            'nota' => 'required|numeric|min:1|max:10'
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'errors' => $validator->errors()->toJson()
+            ]);
+        }
         $teacher = User::find($teacherId);
         $student = User::find($studentId);
 

@@ -43,6 +43,7 @@ const Signup = () => {
             .then(({ data }) => {
                 if (data.errors) {
                     const errorJson = JSON.parse(data.errors);
+                    console.log(errorJson)
                     setErrors(errorJson);
                 } else {
                     setUser(data.user);
@@ -51,7 +52,7 @@ const Signup = () => {
             })
             .catch((err) => {
                 const response = err.response;
-                if (response && response.status === 422) {
+                if (response && response.status === 500) {
                     // error de validacion
                     console.log(response.data.errors);
                 }

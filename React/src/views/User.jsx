@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { CContainer, CRow, CCol } from "@coreui/bootstrap-react";
+import React, { useEffect, useState, useRef } from "react";
+import { CToast, CToastHeader, CToastBody } from "@coreui/bootstrap-react";
 import { useStateContext } from "../../context/ContextProvider";
 import axiosClient from "../axios-client";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../styles/User.css";
 
 const User = () => {
     const { user, setUser } = useStateContext();
     const [evaluations, setEvaluations] = useState([]);
     const [students, setStudents] = useState([]);
+    const form = useRef(null);
+    const [errors, setErrors] = useState([]);
+    const [show, setShow] = useState(false);
 
     const getUserData = async () => {
         const { data } = await axiosClient.get("/auth/user");
@@ -24,7 +29,6 @@ const User = () => {
         if (data.user_rols_id === 1) {
             const studentsData = await axiosClient.get(`/students`);
             setStudents(studentsData.data);
-            console.log(studentsData);
         }
     };
 
@@ -44,15 +48,73 @@ const User = () => {
         const formData = new FormData(form.current);
 
         const payload = {
-            email: formData.get("email"),
-            password: formData.get("password"),
+            teacher_id: parseFloat(user.id),
+            student_id: parseFloat(formData.get("student_id")),
+            nota: parseFloat(formData.get("nota")),
         };
 
-        // axiosClient.post('')
+        axiosClient
+            .post("/evaluations", payload)
+            .then((data) => {
+                if (data.data.errors) {
+                    const errorJson = JSON.parse(data.data.errors);
+                    setErrors(errorJson);
+                } else {
+                    setErrors(null);
+                    setShow(true);
+                    setTimeout(() => {
+                        setShow(false);
+                    }, 1500);
+                }
+            })
+            .catch((err) => {
+                const response = err.response;
+                if (response && response.status === 500) {
+                    const errorObjet = {
+                        error: ["Student does not exists"],
+                    };
+                    setErrors(errorObjet);
+                }
+            });
     };
+    console.log(errors);
 
     return (
         <>
+            <div className="toast-container">
+                <CToast
+                    title="Bootstrap React"
+                    autohide={false}
+                    visible={show}
+                    placement="top-center"
+                >
+                    <CToastHeader close>
+                        <svg
+                            className="rounded me-2"
+                            width="20"
+                            height="20"
+                            xmlns="http://www.w3.org/2000/svg"
+                            preserveAspectRatio="xMidYMid slice"
+                            focusable="false"
+                            role="img"
+                        >
+                            <rect
+                                width="100%"
+                                height="100%"
+                                fill="#007aff"
+                            ></rect>
+                        </svg>
+                        <strong className="me-auto">
+                            Score created succesfully
+                        </strong>
+                        <small>Recently</small>
+                    </CToastHeader>
+                    <CToastBody>
+                        The student will be able to view this score shortly
+                    </CToastBody>
+                </CToast>
+            </div>
+
             <div className="container my-5">
                 <div className="row g-4">
                     <div className="col-12 col-md-6">
@@ -125,46 +187,62 @@ const User = () => {
                                     </h5>
                                 </div>
                                 <div className="card-body">
-                                    <form>
-                                        <div class="mb-3">
+                                    {errors && (
+                                        <div>
+                                            {Object.keys(errors).map((i) => (
+                                                <div
+                                                    key={i}
+                                                    className="p-2 mb-2 bg-danger text-white rounded"
+                                                >
+                                                    {errors[i][0]}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <form ref={form}>
+                                        <div className="mb-3">
                                             <label
-                                                for="exampleDataList"
-                                                class="form-label"
+                                                htmlFor="student_id"
+                                                className="form-label"
                                             >
                                                 Student
                                             </label>
                                             <input
-                                                class="form-control"
+                                                className="form-control"
                                                 list="datalistOptions"
-                                                id="exampleDataList"
+                                                id="student"
+                                                name="student_id"
                                                 placeholder="Type to search..."
                                             />
                                             <datalist id="datalistOptions">
                                                 {students.map((student) => (
                                                     <option
-                                                        value={student.name}
+                                                        value={student.id}
+                                                        key={student.id}
                                                     >
                                                         {student.name}
                                                     </option>
                                                 ))}
                                             </datalist>
                                         </div>
-                                        <div class="mb-3">
+                                        <div className="mb-3">
                                             <label
-                                                for="exampleInputPassword1"
-                                                class="form-label"
+                                                htmlFor="nota"
+                                                className="form-label"
                                             >
                                                 Score (from 1 to 10)
                                             </label>
                                             <input
                                                 type="number"
-                                                class="form-control"
-                                                id="exampleInputPassword1"
+                                                className="form-control"
+                                                id="nota"
+                                                name="nota"
                                             />
                                         </div>
                                         <button
                                             type="submit"
-                                            class="btn btn-primary"
+                                            className="btn btn-primary"
+                                            onClick={onSubmit}
                                         >
                                             Submit
                                         </button>
