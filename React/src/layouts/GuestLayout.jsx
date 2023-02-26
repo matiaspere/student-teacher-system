@@ -8,7 +8,7 @@ const GuestLayout = () => {
 
 
     return (
-        <div className="col-auto p-2">
+        <div>
             <Outlet />
         </div>
     );

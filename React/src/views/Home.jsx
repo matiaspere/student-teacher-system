@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../components/Pagination";
+import "../styles/Navbar.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import image from "../images/recursos-humanos-el-valor-agregado-scaled.webp";
 
 const Home = () => {
     const [usersData, setUsersData] = useState([]);
@@ -43,9 +47,50 @@ const Home = () => {
     }, [value, paginate, page]);
 
     return (
-        <div className="d-flex flex-column align-items-center">
-            <div className="mt-5 d-flex flex-column w-50">
-                <div className="input-group mb-3">
+        <>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary px-2">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        Logo
+                    </a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#rightButtons"
+                        aria-controls="rightButtons"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="rightButtons">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                        <div>
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link signup text-center"
+                                        href="#"
+                                    >
+                                        Sign up
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-center" href="#">
+                                        Login
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid mt-5 p-4">
+                <h1>Students and teachers</h1>
+                <hr />
+                <div class="input-group">
                     <span
                         className="input-group-text"
                         id="inputGroup-sizing-default"
@@ -60,38 +105,41 @@ const Home = () => {
                         onChange={onInputChange}
                     />
                 </div>
-                <Pagination
-                    usersData={usersData}
-                    setPaginate={setPaginate}
-                    paginate={paginate}
-                    setPage={setPage}
-                    page={page}
-                />
+                <div className="mt-3">
+                    <Pagination
+                        usersData={usersData}
+                        setPaginate={setPaginate}
+                        paginate={paginate}
+                        setPage={setPage}
+                        page={page}
+                    />
+                </div>
+                <div className="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {usersData?.users?.data?.map((user) => (
+                                <tr key={user.id}>
+                                    <th scope="row">{user.name}</th>
+                                    <td>{user.email}</td>
+                                    <td>
+                                        {user.user_rols_id === 1
+                                            ? "Teacher"
+                                            : "Student"}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <table className="table w-50">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Rol</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {usersData?.users?.data?.map((user) => (
-                        <tr key={user.id}>
-                            <th scope="row">{user.name}</th>
-                            <td>{user.email}</td>
-                            <td>
-                                {user.user_rols_id === 1
-                                    ? "Teacher"
-                                    : "Student"}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        </>
     );
 };
 
