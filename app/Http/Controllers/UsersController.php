@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evaluations;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -31,9 +32,15 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function getEvaluations($id)
     {
-        //
+        $evaluations = Evaluations::where('student_id', $id)->get();
+        $average = $evaluations->avg('nota');
+
+        return response()->json([
+            "evaluations" => $evaluations,
+            "average" => $average
+        ]);
     }
 
     /**

@@ -45,6 +45,7 @@ Route::get('/roles', [RolesController::class, 'index']);
 
 // Usuarios
 Route::get('/users/{user_rols_id}/{paginate}', [UsersController::class, 'index']);
+Route::get('/evaluations/{id}', [UsersController::class, 'getEvaluations']);
 
 // Listing
 Route::get('/listing/{paginate}', [ListingController::class, 'index']);
