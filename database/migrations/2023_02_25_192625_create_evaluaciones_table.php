@@ -11,14 +11,6 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('evaluations', function (Blueprint $table) {
-            // $table->id();
-            // $table->unsignedBigInteger('teacher_id')->unsigned()->nullable();
-            // $table->unsignedBigInteger('student_id')->unsigned()->nullable();
-            // $table->foreign('teacher_id')->references('id')->on('users');
-            // $table->foreign('student_id')->references('id')->on('users');
-            // $table->float('nota');
-            // $table->timestamps();
-
             $table->id();
             $table->foreignId('teacher_id')->constrained('users');
             $table->foreignId('student_id')->constrained('users');

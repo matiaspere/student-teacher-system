@@ -28,7 +28,6 @@ const Login = () => {
                 } else if (data.access_token) {
                     setToken(data.access_token);
                     setUser(data.user);
-                    console.log(data);
                     if (data.user.user_rols_id === 1) {
                         return <Navigate to="/teacher"/>
                     } else {
@@ -45,7 +44,6 @@ const Login = () => {
             .catch((err) => {
                 const response = err.response;
                 if (response && response.status === 422) {
-                    // error de validacion
                     console.log(response.data.errors);
                 }
             });
