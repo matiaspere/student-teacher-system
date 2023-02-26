@@ -10,6 +10,15 @@ const Listing = () => {
     const [paginate, setPaginate] = useState(10);
     const [page, setPage] = useState(1);
 
+    const getUserData = async () => {
+        const { data } = await axiosClient.get("/auth/user");
+        setUser(data);
+        const _usersData = await axiosClient.get(
+            `/users/${data.user_rols_id}/${paginate}?page=${page}`
+        );
+        setUsersData(_usersData?.data);
+    };
+
     const getData = async (rol) => {
         await axiosClient
             .get(`/users/${rol}/${paginate}?page=${page}`)
@@ -20,20 +29,19 @@ const Listing = () => {
     };
 
     useEffect(() => {
-        axiosClient
-            .get("/auth/user")
-            .then(({ data }) => {
-                setUser(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        getUserData();
     }, []);
 
     useEffect(() => {
         getData(user?.user_rols_id);
     }, [paginate, page]);
 
+    let rol;
+    if (user?.user_rols_id === 1) {
+        rol = "teachers";
+    } else {
+        rol = "students";
+    }
 
     return (
         <CContainer>
@@ -44,7 +52,7 @@ const Listing = () => {
                 <div className="container d-flex align-items-center justify-content-center">
                     <div className="my-5 container d-flex justify-content-center align-items-center w-100 flex-column">
                         <div className="container d-flex flex-row justify-content-between align-items-center">
-                            <p className="lead">Users</p>
+                            <p className="lead">Other {rol}</p>
                             <Pagination
                                 usersData={usersData}
                                 setPaginate={setPaginate}
