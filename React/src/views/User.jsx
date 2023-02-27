@@ -1,35 +1,39 @@
 import React, { useEffect, useState, useRef } from "react";
 import { CToast, CToastHeader, CToastBody } from "@coreui/bootstrap-react";
 import { useStateContext } from "../../context/ContextProvider";
+import { Navigate } from "react-router-dom";
 import axiosClient from "../axios-client";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-
 const User = () => {
-    const { user, setUser } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
     const [evaluations, setEvaluations] = useState([]);
     const [students, setStudents] = useState([]);
     const form = useRef(null);
     const [errors, setErrors] = useState([]);
     const [show, setShow] = useState(false);
 
-    console.log(user)
-
     const getUserData = async () => {
-        const { data } = await axiosClient.get("/auth/user");
-        setUser(data);
+        try {
+            const { data } = await axiosClient.get("/auth/user");
+            setUser(data);
 
-        if (data.user_rols_id === 2) {
-            const userEvaluations = await axiosClient.get(
-                `/evaluations/${data.id}`
-            );
-            setEvaluations(userEvaluations.data);
-        }
-        if (data.user_rols_id === 1) {
-            const studentsData = await axiosClient.get(`/students`);
-            setStudents(studentsData.data);
+            if (data.user_rols_id === 2) {
+                const userEvaluations = await axiosClient.get(
+                    `/evaluations/${data.id}`
+                );
+                setEvaluations(userEvaluations.data);
+            }
+            if (data.user_rols_id === 1) {
+                const studentsData = await axiosClient.get(`/students`);
+                setStudents(studentsData.data);
+            }
+        } catch (error) {
+            setUser({});
+            setToken(null);
+            <Navigate to="/login" />;
         }
     };
 
@@ -81,6 +85,7 @@ const User = () => {
 
     return (
         <>
+            {/* Notification */}
             <div className="toast-container">
                 <CToast
                     title="Bootstrap React"
@@ -115,12 +120,18 @@ const User = () => {
                 </CToast>
             </div>
 
+            {/* User data */}
             <div className="container my-5">
                 <div className="row g-4">
                     <div className="col-12 col-md-6">
                         <div className="card">
-                            <div className="card-header" style={{ backgroundColor:"#0D4F94" }}>
-                                <h5 className="card-title text-white" >Profile</h5>
+                            <div
+                                className="card-header"
+                                style={{ backgroundColor: "#0D4F94" }}
+                            >
+                                <h5 className="card-title text-white">
+                                    Profile
+                                </h5>
                             </div>
                             <div className="card-body">
                                 <p>
@@ -135,11 +146,18 @@ const User = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* Student */}
                     {user?.user_rols_id === 2 ? (
                         <div className="col-12 col-md-6">
                             <div className="card">
-                                <div className="card-header" style={{ backgroundColor: "#0D4F94" }}>
-                                    <h5 className="card-title text-white">Scores</h5>
+                                <div
+                                    className="card-header"
+                                    style={{ backgroundColor: "#0D4F94" }}
+                                >
+                                    <h5 className="card-title text-white">
+                                        Scores
+                                    </h5>
                                     <p className="text-white">
                                         <strong>Average: </strong>
                                         {evaluations?.average?.toFixed(2)}
@@ -179,9 +197,13 @@ const User = () => {
                             </div>
                         </div>
                     ) : (
+                        // Teacher
                         <div className="col-12 col-md-6">
                             <div className="card">
-                                <div className="card-header" style={{ backgroundColor: "#0D4F94" }}>
+                                <div
+                                    className="card-header"
+                                    style={{ backgroundColor: "#0D4F94" }}
+                                >
                                     <h5 className="card-title text-white">
                                         Create a new score
                                     </h5>
@@ -243,7 +265,10 @@ const User = () => {
                                             type="submit"
                                             className="btn btn-primary"
                                             onClick={onSubmit}
-                                            style={{ backgroundColor: "#e04cd8", border: 'none' }}
+                                            style={{
+                                                backgroundColor: "#0D4F94",
+                                                border: "none",
+                                            }}
                                         >
                                             Submit
                                         </button>

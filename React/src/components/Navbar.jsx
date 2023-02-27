@@ -18,13 +18,13 @@ const Navbar = () => {
     };
 
     return (
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/home">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container-fluid">
+                <a className="navbar-brand" href="/home">
                     <img src={logo} alt="logo" style={{ width: "50px" }} />
                 </a>
                 <button
-                    class="navbar-toggler"
+                    className="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarNav"
@@ -32,15 +32,15 @@ const Navbar = () => {
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
-                    <span class="navbar-toggler-icon"></span>
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         {token ? (
                             <>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     <a
-                                        class="nav-link active"
+                                        className="nav-link active"
                                         aria-current="page"
                                         href="/user"
                                         style={{ color: "#0D4F94" }}
@@ -48,9 +48,9 @@ const Navbar = () => {
                                         Profile
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     <a
-                                        class="nav-link"
+                                        className="nav-link"
                                         href="/listing"
                                         style={{ color: "#0D4F94" }}
                                     >
@@ -65,30 +65,30 @@ const Navbar = () => {
                         )}
                     </ul>
 
-                    <ul class="navbar-nav ml-auto">
+                    <ul className="navbar-nav ml-auto">
                         {token ? (
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" onClick={onLogout}>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#" onClick={onLogout}>
                                     Logout
                                 </a>
                             </li>
                         ) : (
                             <>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     <a
                                         style={{
                                             backgroundColor: "#0D4F94",
                                             borderRadius: "5px",
                                         }}
-                                        class="nav-link text-white text-center"
+                                        className="nav-link text-white text-center"
                                         href="/signup"
                                     >
                                         Signup
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     <a
-                                        class="nav-link text-center"
+                                        className="nav-link text-center"
                                         href="/login"
                                     >
                                         Login

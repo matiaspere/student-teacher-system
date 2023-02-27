@@ -81,7 +81,8 @@ const Signup = () => {
                                         {Object.keys(errors).map((i) => (
                                             <div
                                                 key={i}
-                                                className="p-2 mb-2 bg-danger text-white rounded"
+                                                className="p-2 mb-2 text-white rounded"
+                                                style={{ backgroundColor: "#e04cd8", border: 'none' }}
                                             >
                                                 {errors[i][0]}
                                             </div>

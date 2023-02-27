@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { CContainer, CRow, CCol } from "@coreui/bootstrap-react";
 import { useStateContext } from "../../context/ContextProvider";
+import { Navigate } from "react-router-dom";
 import axiosClient from "../axios-client";
 import Pagination from "../components/Pagination";
 
 const Listing = () => {
-    const { user, setUser } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
     const [usersData, setUsersData] = useState([]);
     const [paginate, setPaginate] = useState(10);
     const [page, setPage] = useState(1);
 
     const getUserData = async () => {
-        const { data } = await axiosClient.get("/auth/user");
-        setUser(data);
-        const _usersData = await axiosClient.get(
-            `/users/${data.user_rols_id}/${paginate}?page=${page}`
-        );
-        setUsersData(_usersData?.data);
+        try {
+            const { data } = await axiosClient.get("/auth/user");
+            setUser(data);
+            const _usersData = await axiosClient.get(
+                `/users/${data.user_rols_id}/${paginate}?page=${page}`
+            );
+            setUsersData(_usersData?.data);
+        } catch (error) {
+            setUser({});
+            setToken(null);
+            <Navigate to="/login" />;
+        }
     };
 
     const getData = async (rol) => {
@@ -36,7 +43,7 @@ const Listing = () => {
         getData(user?.user_rols_id);
     }, [paginate, page]);
 
-    console.log(usersData)
+    console.log(usersData);
     let rol;
     if (user?.user_rols_id === 1) {
         rol = "teachers";
