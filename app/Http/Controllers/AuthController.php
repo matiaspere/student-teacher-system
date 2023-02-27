@@ -25,7 +25,6 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|string|email|max:100|unique:users',

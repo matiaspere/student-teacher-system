@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeControler;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -45,9 +46,15 @@ Route::get('/roles', [RolesController::class, 'index']);
 
 // Usuarios
 Route::get('/users/{user_rols_id}/{paginate}', [UsersController::class, 'index']);
+Route::get('/students', [UsersController::class, 'getStudents']);
 
 // Listing
 Route::get('/listing/{paginate}', [ListingController::class, 'index']);
 
 // Home
 Route::get('/home/{value}/{paginate}', [HomeControler::class, 'index']);
+// Evaluations
+
+Route::post('/evaluations', [EvaluationController::class, 'store']);
+Route::get('/evaluations/{id}', [UsersController::class, 'getEvaluations']);
+
