@@ -4,6 +4,7 @@ import { useStateContext } from "../../context/ContextProvider";
 import { Navigate } from "react-router-dom";
 import axiosClient from "../axios-client";
 import moment from "moment";
+import '../styles/User.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -69,7 +70,7 @@ const User = () => {
                     setShow(true);
                     setTimeout(() => {
                         setShow(false);
-                    }, 1500);
+                    }, 2000);
                 }
             })
             .catch((err) => {
@@ -115,7 +116,7 @@ const User = () => {
                         <small>Recently</small>
                     </CToastHeader>
                     <CToastBody>
-                        The student will be able to view this score shortly
+                        The student will be able to view this score in a short time.
                     </CToastBody>
                 </CToast>
             </div>
