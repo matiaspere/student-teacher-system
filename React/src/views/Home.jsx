@@ -5,6 +5,7 @@ import Pagination from "../components/Pagination";
 import "../styles/Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
     const { user, token } = useStateContext();
@@ -49,62 +50,10 @@ const Home = () => {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary px-2">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="#">
-                        Logo
-                    </a>
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#rightButtons"
-                        aria-controls="rightButtons"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="rightButtons">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-                        <div>
-                            <ul className="navbar-nav ml-auto">
-                                <li className="nav-item">
-                                    {!token && (
-                                        <a
-                                            className="nav-link signup text-center"
-                                            href="/signup"
-                                        >
-                                            Sign up
-                                        </a>
-                                    )}
-                                </li>
-                                <li className="nav-item">
-                                    {token ? (
-                                        <a
-                                            className="nav-link text-center"
-                                            href="/user"
-                                        >
-                                            Profile
-                                        </a>
-                                    ) : (
-                                        <a
-                                            className="nav-link text-center"
-                                            href="/login"
-                                        >
-                                            Login
-                                        </a>
-                                    )}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
+            <Navbar />
             <div className="container-fluid mt-5 p-4">
                 <h1>Students and teachers</h1>
-                <hr />
+
                 <div className="input-group">
                     <span
                         className="input-group-text"
@@ -120,7 +69,8 @@ const Home = () => {
                         onChange={onInputChange}
                     />
                 </div>
-                <div className="mt-3">
+                <hr />
+                <div className="mt-5 d-flex justify-content-end">
                     <Pagination
                         usersData={usersData}
                         setPaginate={setPaginate}

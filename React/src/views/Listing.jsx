@@ -36,6 +36,7 @@ const Listing = () => {
         getData(user?.user_rols_id);
     }, [paginate, page]);
 
+    console.log(usersData)
     let rol;
     if (user?.user_rols_id === 1) {
         rol = "teachers";

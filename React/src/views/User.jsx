@@ -5,7 +5,7 @@ import axiosClient from "../axios-client";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "../../styles/User.css";
+
 
 const User = () => {
     const { user, setUser } = useStateContext();
@@ -14,6 +14,8 @@ const User = () => {
     const form = useRef(null);
     const [errors, setErrors] = useState([]);
     const [show, setShow] = useState(false);
+
+    console.log(user)
 
     const getUserData = async () => {
         const { data } = await axiosClient.get("/auth/user");
@@ -24,7 +26,6 @@ const User = () => {
                 `/evaluations/${data.id}`
             );
             setEvaluations(userEvaluations.data);
-            console.log(userEvaluations.data);
         }
         if (data.user_rols_id === 1) {
             const studentsData = await axiosClient.get(`/students`);
@@ -77,7 +78,6 @@ const User = () => {
                 }
             });
     };
-    console.log(errors);
 
     return (
         <>
@@ -119,8 +119,8 @@ const User = () => {
                 <div className="row g-4">
                     <div className="col-12 col-md-6">
                         <div className="card">
-                            <div className="card-header">
-                                <h5 className="card-title">Profile</h5>
+                            <div className="card-header" style={{ backgroundColor:"#0D4F94" }}>
+                                <h5 className="card-title text-white" >Profile</h5>
                             </div>
                             <div className="card-body">
                                 <p>
@@ -138,9 +138,9 @@ const User = () => {
                     {user?.user_rols_id === 2 ? (
                         <div className="col-12 col-md-6">
                             <div className="card">
-                                <div className="card-header">
-                                    <h5 className="card-title">Scores</h5>
-                                    <p>
+                                <div className="card-header" style={{ backgroundColor: "#0D4F94" }}>
+                                    <h5 className="card-title text-white">Scores</h5>
+                                    <p className="text-white">
                                         <strong>Average: </strong>
                                         {evaluations?.average?.toFixed(2)}
                                     </p>
@@ -181,8 +181,8 @@ const User = () => {
                     ) : (
                         <div className="col-12 col-md-6">
                             <div className="card">
-                                <div className="card-header">
-                                    <h5 className="card-title">
+                                <div className="card-header" style={{ backgroundColor: "#0D4F94" }}>
+                                    <h5 className="card-title text-white">
                                         Create a new score
                                     </h5>
                                 </div>
@@ -243,6 +243,7 @@ const User = () => {
                                             type="submit"
                                             className="btn btn-primary"
                                             onClick={onSubmit}
+                                            style={{ backgroundColor: "#e04cd8", border: 'none' }}
                                         >
                                             Submit
                                         </button>

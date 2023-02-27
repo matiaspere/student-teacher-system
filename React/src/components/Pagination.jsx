@@ -9,9 +9,10 @@ const Pagination = ({ setPaginate, paginate, setPage, page, usersData }) => {
         }
     };
     const nextPage = () => {
-        if (page < usersData.users.last_page) {
+        if (page < usersData?.users?.last_page || page < usersData?.last_page) {
             setPage(page + 1);
         }
+        console.log(usersData?.users?.last_page);
     };
 
     return (
@@ -36,7 +37,10 @@ const Pagination = ({ setPaginate, paginate, setPage, page, usersData }) => {
                                     ? "page-item active"
                                     : "page-item"
                             }
-                            onClick={() => setPaginate(page)}
+                            onClick={() => {
+                                setPaginate(page);
+                                setPage(1);
+                            }}
                         >
                             <a className="page-link" href="#">
                                 {page}
@@ -45,7 +49,8 @@ const Pagination = ({ setPaginate, paginate, setPage, page, usersData }) => {
                     ))}
                     <li
                         className={
-                            page === usersData?.users?.last_page
+                            page === usersData?.users?.last_page ||
+                            page === usersData?.last_page
                                 ? "page-item disabled"
                                 : "page-item"
                         }

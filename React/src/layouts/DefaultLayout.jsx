@@ -9,7 +9,7 @@ const DefaultLayout = () => {
     const { token, setUser } = useStateContext();
 
     if (!token) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/home" />;
     }
 
 
