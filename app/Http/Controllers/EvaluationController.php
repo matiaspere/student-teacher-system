@@ -33,11 +33,13 @@ class EvaluationController extends Controller
         $teacherId = $request->teacher_id;
         $studentId = $request->student_id;
         $nota = $request->nota;
+        $date = $request->date;
 
         $validator = Validator::make($request->all(), [
             'teacher_id' => 'required',
             'student_id' => 'required',
-            'nota' => 'required|numeric|min:1|max:10'
+            'nota' => 'required|numeric|min:1|max:10',
+            // 'date' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -52,6 +54,7 @@ class EvaluationController extends Controller
         $evaluation->teacher()->associate($teacher);
         $evaluation->student()->associate($student);
         $evaluation->nota = $nota;
+        $evaluation->created_at = $date;
         $evaluation->save();
 
         return response()->json($evaluation, 201);

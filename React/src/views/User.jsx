@@ -4,17 +4,20 @@ import { useStateContext } from "../../context/ContextProvider";
 import { Navigate } from "react-router-dom";
 import axiosClient from "../axios-client";
 import moment from "moment";
-import '../styles/User.css'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../styles/User.css";
 
 const User = () => {
     const { user, setUser, setToken } = useStateContext();
+    const form = useRef(null);
     const [evaluations, setEvaluations] = useState([]);
     const [students, setStudents] = useState([]);
-    const form = useRef(null);
     const [errors, setErrors] = useState([]);
     const [show, setShow] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const getUserData = async () => {
         try {
@@ -38,17 +41,6 @@ const User = () => {
         }
     };
 
-    useEffect(() => {
-        getUserData();
-    }, []);
-
-    let rol;
-    if (user?.user_rols_id === 1) {
-        rol = "Teacher";
-    } else {
-        rol = "Student";
-    }
-
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(form.current);
@@ -57,8 +49,10 @@ const User = () => {
             teacher_id: parseFloat(user.id),
             student_id: parseFloat(formData.get("student_id")),
             nota: parseFloat(formData.get("nota")),
+            date: selectedDate
         };
 
+        console.log(payload)
         axiosClient
             .post("/evaluations", payload)
             .then((data) => {
@@ -83,6 +77,17 @@ const User = () => {
                 }
             });
     };
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
+    let rol;
+    if (user?.user_rols_id === 1) {
+        rol = "Teacher";
+    } else {
+        rol = "Student";
+    }
 
     return (
         <>
@@ -116,7 +121,8 @@ const User = () => {
                         <small>Recently</small>
                     </CToastHeader>
                     <CToastBody>
-                        The student will be able to view this score in a short time.
+                        The student will be able to view this score in a short
+                        time.
                     </CToastBody>
                 </CToast>
             </div>
@@ -261,6 +267,24 @@ const User = () => {
                                                 id="nota"
                                                 name="nota"
                                             />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="nota"
+                                                className="form-label"
+                                            >
+                                                Date
+                                            </label>
+                                            {/*  */}
+                                            <div>
+                                                <DatePicker
+                                                    selected={selectedDate}
+                                                    onChange={(date) =>
+                                                        setSelectedDate(date)
+                                                    }
+                                                />
+                                            </div>
+                                            {/*  */}
                                         </div>
                                         <button
                                             type="submit"
