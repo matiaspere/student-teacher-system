@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import {  Navigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import axiosClient from "../axios-client";
-import image from "../images/pexels-polina-zimmerman-3747140.jpg";
 
 const Signup = () => {
     const form = useRef(null);
@@ -26,7 +25,7 @@ const Signup = () => {
                     console.log(err);
                 });
         }
-        getRoles()
+        getRoles();
     }, []);
 
     const onSubmit = (e) => {
@@ -41,12 +40,13 @@ const Signup = () => {
             user_rols_id: formData.get("user_rols_id"),
         };
 
+        console.log(payload);
         axiosClient
             .post("/auth/signup", payload)
             .then(({ data }) => {
                 if (data.errors) {
                     const errorJson = JSON.parse(data.errors);
-                    console.log(errorJson)
+                    console.log(errorJson);
                     setErrors(errorJson);
                 } else {
                     setUser(data.user);
@@ -65,30 +65,27 @@ const Signup = () => {
     return (
         <>
             {!userCreated ? (
-                <div className="container">
-                    <div className="row">
-                        <div className="col-6 d-flex align-items-center justify-content-center">
-                            <img
-                                src={image}
-                                className="img-fluid mx-auto d-block w-50 rounded"
-                            />
-                        </div>
-                        <div className="col-6 d-flex align-items-center justify-content-start">
-                            <form onSubmit={onSubmit} ref={form}>
-                                <h4 className="mb-3">Register for free</h4>
-                                {errors && (
-                                    <div>
-                                        {Object.keys(errors).map((i) => (
-                                            <div
-                                                key={i}
-                                                className="p-2 mb-2 text-white rounded"
-                                                style={{ backgroundColor: "#e04cd8", border: 'none' }}
-                                            >
-                                                {errors[i][0]}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <h1 class="text-center mb-4">Signup</h1>
+                            {errors && (
+                                <div>
+                                    {Object.keys(errors).map((i) => (
+                                        <div
+                                            key={i}
+                                            className="p-2 mb-2 text-white rounded"
+                                            style={{
+                                                backgroundColor: "#e04cd8",
+                                                border: "none",
+                                            }}
+                                        >
+                                            {errors[i][0]}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            <form ref={form} onSubmit={onSubmit}>
                                 <div className="mb-3">
                                     <label
                                         htmlFor="nameRegister"
@@ -103,37 +100,28 @@ const Signup = () => {
                                         id="nameRegister"
                                     />
                                 </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="emailRegister"
-                                        className="form-label"
-                                    >
-                                        Email address
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
+                                        Email
                                     </label>
                                     <input
-                                        name="email"
                                         type="email"
-                                        className="form-control"
-                                        id="emailRegister"
-                                        aria-describedby="emailHelp"
+                                        class="form-control"
+                                        id="email"
+                                        name="email"
+                                        placeholder="name@example.com"
                                     />
-                                    <div id="emailHelp" className="form-text">
-                                        We'll never share your email with anyone
-                                        else.
-                                    </div>
                                 </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="passwordRegister"
-                                        className="form-label"
-                                    >
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
                                         Password
                                     </label>
                                     <input
-                                        name="password"
                                         type="password"
-                                        className="form-control"
-                                        id="passwordRegister"
+                                        class="form-control"
+                                        id="password"
+                                        name="password"
+                                        placeholder="********"
                                     />
                                 </div>
                                 <div className="mb-3">
@@ -162,37 +150,87 @@ const Signup = () => {
                                         id="userTypeRegister"
                                         name="user_rols_id"
                                     >
-                                        <option selected>- Select - </option>
+                                        <option defaultValue={null}></option>
                                         {roles.map((rol) => (
                                             <option value={rol.id}>
                                                 {rol.description}
                                             </option>
                                         ))}
-                                        {/* <option value={"student"}>
-                                            Student
-                                        </option>
-                                        <option value={"teacher"}>
-                                            Teacher
-                                        </option> */}
                                     </select>
                                 </div>
-                                <div className="d-flex justify-content-between align-items-center">
+                                <div class="d-grid gap-2">
                                     <button
                                         type="submit"
-                                        className="btn btn-primary w-25"
+                                        class="btn"
+                                        style={{
+                                            backgroundColor: "#0D4F94",
+                                            border: "none",
+                                            color: "white",
+                                        }}
                                     >
-                                        Submit
+                                        Register
                                     </button>
-                                    <Link to="/login">already registered?</Link>
                                 </div>
                             </form>
+                            <hr />
+                            <div class="text-center d-flex flex-column">
+                                <p
+                                    style={{
+                                        color: "#0D4F94",
+                                    }}
+                                >
+                                    Already have an account?
+                                </p>
+                                <a
+                                    href="/login"
+                                    class="btn"
+                                    style={{
+                                        border: "2px solid #0D4F94",
+                                        color: "#0D4F94",
+                                    }}
+                                >
+                                    Login
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             ) : (
-                <div>
-                    <p>User created</p>
-                    <Link to="/login">Login</Link>
+                <div
+                    class="container py-5 d-flex align-items-center justify-content-center"
+                    style={{ height: "100vh" }}
+                >
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1 class="text-center mb-4">
+                                Successful registration
+                            </h1>
+                            <div class="d-grid gap-2">
+                                <a
+                                    href="/login"
+                                    type="submit"
+                                    class="btn"
+                                    style={{
+                                        backgroundColor: "#0D4F94",
+                                        border: "none",
+                                        color: "white",
+                                    }}
+                                >
+                                    Login
+                                </a>
+                            </div>
+                            <hr />
+                            <div class="text-center d-flex flex-column">
+                                <p
+                                    style={{
+                                        color: "#0D4F94",
+                                    }}
+                                >
+                                    <a href="/home">Go back to Home</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
         </>

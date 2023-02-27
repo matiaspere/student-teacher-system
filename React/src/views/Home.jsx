@@ -70,7 +70,7 @@ const Home = () => {
                     />
                 </div>
                 <hr />
-                <div className="mt-5 d-flex justify-content-end">
+                <div className="mt-5 d-flex justify-content-start">
                     <Pagination
                         usersData={usersData}
                         setPaginate={setPaginate}

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
-import image from "../images/pexels-polina-zimmerman-3747140.jpg";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import axiosClient from "../axios-client";
 
@@ -33,9 +32,9 @@ const Login = () => {
                     setToken(data.access_token);
                     setUser(data.user);
                     if (data.user.user_rols_id === 1) {
-                        return <Navigate to="/teacher"/>
+                        return <Navigate to="/teacher" />;
                     } else {
-                        return <Navigate to="/student"/>
+                        return <Navigate to="/student" />;
                     }
                 } else {
                     const errorObjet = {
@@ -54,74 +53,84 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-6 d-flex align-items-center justify-content-center">
-                        <img
-                            src={image}
-                            className="img-fluid mx-auto d-block w-50 rounded"
-                        />
-                    </div>
-                    <div className="col-6 d-flex align-items-center justify-content-start">
-                        <form ref={form} onSubmit={onSubmit}>
-                            <h4>Login</h4>
-                            {errors && (
-                                <div>
-                                    {Object.keys(errors).map((i) => (
-                                        <div
-                                            key={i}
-                                            className="p-2 mb-2 text-white rounded"
-                                            style={{ backgroundColor: "#e04cd8", border: 'none' }}
-                                        >
-                                            {errors[i][0]}
-                                        </div>
-                                    ))}
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h1 class="text-center mb-4">Login</h1>
+                    {errors && (
+                        <div>
+                            {Object.keys(errors).map((i) => (
+                                <div
+                                    key={i}
+                                    className="p-2 mb-2 text-white rounded"
+                                    style={{
+                                        backgroundColor: "#e04cd8",
+                                        border: "none",
+                                    }}
+                                >
+                                    {errors[i][0]}
                                 </div>
-                            )}
-                            <div className="mb-3">
-                                <label
-                                    for="exampleInputEmail1"
-                                    className="form-label"
-                                >
-                                    Email address
-                                </label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="exampleInputEmail1"
-                                    aria-describedby="emailHelp"
-                                    name="email"
-                                />
-                                <div id="emailHelp" className="form-text">
-                                    We'll never share your email with anyone
-                                    else.
-                                </div>
-                            </div>
-                            <div className="mb-3">
-                                <label
-                                    for="exampleInputPassword1"
-                                    className="form-label"
-                                >
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    id="exampleInputPassword1"
-                                    name="password"
-                                />
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary w-25"
-                                >
-                                    Submit
-                                </button>
-                                <Link to="/signup">not registered?</Link>
-                            </div>
-                        </form>
+                            ))}
+                        </div>
+                    )}
+                    <form ref={form} onSubmit={onSubmit}>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="name@example.com"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="********"
+                            />
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button
+                                type="submit"
+                                class="btn"
+                                style={{
+                                    backgroundColor: "#0D4F94",
+                                    border: "none",
+                                    color: "white",
+                                }}
+                            >
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                    <hr />
+                    <div class="text-center d-flex flex-column">
+                        <p
+                            style={{
+                                color: "#0D4F94",
+                            }}
+                        >
+                            Don't have an account?
+                        </p>
+                        <a
+                            href="/signup"
+                            class="btn"
+                            style={{
+                                border: "2px solid #0D4F94",
+                                color: "#0D4F94",
+                            }}
+                        >
+                            Register
+                        </a>
                     </div>
                 </div>
             </div>
