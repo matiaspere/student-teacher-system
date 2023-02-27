@@ -47,16 +47,15 @@ const Home = () => {
         getUsers(value, paginate, page);
     }, [value, paginate, page]);
 
-    console.log(user);
     return (
         <>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary px-2">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">
+            <nav className="navbar navbar-expand-lg bg-body-tertiary px-2">
+                <div className="container-fluid">
+                    <a className="navbar-brand" href="#">
                         Logo
                     </a>
                     <button
-                        class="navbar-toggler"
+                        className="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#rightButtons"
@@ -64,33 +63,33 @@ const Home = () => {
                         aria-expanded="false"
                         aria-label="Toggle navigation"
                     >
-                        <span class="navbar-toggler-icon"></span>
+                        <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="rightButtons">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                    <div className="collapse navbar-collapse" id="rightButtons">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
                         <div>
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
+                            <ul className="navbar-nav ml-auto">
+                                <li className="nav-item">
                                     {!token && (
                                         <a
-                                            class="nav-link signup text-center"
+                                            className="nav-link signup text-center"
                                             href="/signup"
                                         >
                                             Sign up
                                         </a>
                                     )}
                                 </li>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     {token ? (
                                         <a
-                                            class="nav-link text-center"
+                                            className="nav-link text-center"
                                             href="/user"
                                         >
                                             Profile
                                         </a>
                                     ) : (
                                         <a
-                                            class="nav-link text-center"
+                                            className="nav-link text-center"
                                             href="/login"
                                         >
                                             Login
@@ -103,10 +102,10 @@ const Home = () => {
                 </div>
             </nav>
 
-            <div class="container-fluid mt-5 p-4">
+            <div className="container-fluid mt-5 p-4">
                 <h1>Students and teachers</h1>
                 <hr />
-                <div class="input-group">
+                <div className="input-group">
                     <span
                         className="input-group-text"
                         id="inputGroup-sizing-default"
@@ -131,23 +130,31 @@ const Home = () => {
                     />
                 </div>
                 <div className="table-responsive">
-                    <table class="table table-striped">
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Email</th>
                                 <th>Rol</th>
+                                <th>Average</th>
                             </tr>
                         </thead>
                         <tbody>
                             {usersData?.users?.data?.map((user) => (
-                                <tr key={user.id}>
-                                    <th scope="row">{user.name}</th>
-                                    <td>{user.email}</td>
+                                <tr key={user?.id}>
+                                    <th scope="row">{user?.name}</th>
                                     <td>
-                                        {user.user_rols_id === 1
+                                    <a href={`mailto:${user?.email}`}>{user?.email}</a>
+                                    </td>
+                                    <td>
+                                        {user?.user_rols_id === 1
                                             ? "Teacher"
                                             : "Student"}
+                                    </td>
+                                    <td>
+                                        {user?.user_rols_id === 2
+                                            ? user?.average?.toFixed(2)
+                                            : "-"}
                                     </td>
                                 </tr>
                             ))}

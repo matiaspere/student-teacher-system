@@ -15,6 +15,13 @@ class HomeControler extends Controller
 
         if ($value == "null") {
             $users = User::paginate($paginate);
+
+            foreach ($users as $user) {
+                if ($user->user_rols_id === 2) {
+                    $user->average = $user->evaluations()->avg('nota');
+                }
+            }
+
             return response()->json([
                 "users" => $users,
             ]);
@@ -23,6 +30,12 @@ class HomeControler extends Controller
         $users = User::where('name', 'LIKE', "%$value%")
             ->orWhere('email', 'LIKE', "%$value%")
             ->paginate($paginate);
+
+        foreach ($users as $user) {
+            if ($user->user_rols_id === 2) {
+                $user->average = $user->evaluations()->avg('nota');
+            }
+        }
 
         return response()->json([
             "users" => $users
