@@ -65,10 +65,10 @@ const Signup = () => {
     return (
         <>
             {!userCreated ? (
-                <div class="container py-5">
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <h1 class="text-center mb-4">Signup</h1>
+                <div className="container py-5">
+                    <div className="row justify-content-center">
+                        <div className="col-md-6">
+                            <h1 className="text-center mb-4">Signup</h1>
                             {errors && (
                                 <div>
                                     {Object.keys(errors).map((i) => (
@@ -100,25 +100,25 @@ const Signup = () => {
                                         id="nameRegister"
                                     />
                                 </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">
+                                <div className="mb-3">
+                                    <label for="email" className="form-label">
                                         Email
                                     </label>
                                     <input
                                         type="email"
-                                        class="form-control"
+                                        className="form-control"
                                         id="email"
                                         name="email"
                                         placeholder="name@example.com"
                                     />
                                 </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">
+                                <div className="mb-3">
+                                    <label for="password" className="form-label">
                                         Password
                                     </label>
                                     <input
                                         type="password"
-                                        class="form-control"
+                                        className="form-control"
                                         id="password"
                                         name="password"
                                         placeholder="********"
@@ -136,6 +136,7 @@ const Signup = () => {
                                         type="password"
                                         className="form-control"
                                         id="passwordConfirmationRegister"
+                                        placeholder="********"
                                     />
                                 </div>
                                 <div className="mb-3">
@@ -158,10 +159,10 @@ const Signup = () => {
                                         ))}
                                     </select>
                                 </div>
-                                <div class="d-grid gap-2">
+                                <div className="d-grid gap-2">
                                     <button
                                         type="submit"
-                                        class="btn"
+                                        className="btn"
                                         style={{
                                             backgroundColor: "#0D4F94",
                                             border: "none",
@@ -173,7 +174,7 @@ const Signup = () => {
                                 </div>
                             </form>
                             <hr />
-                            <div class="text-center d-flex flex-column">
+                            <div className="text-center d-flex flex-column">
                                 <p
                                     style={{
                                         color: "#0D4F94",
@@ -183,7 +184,7 @@ const Signup = () => {
                                 </p>
                                 <a
                                     href="/login"
-                                    class="btn"
+                                    className="btn"
                                     style={{
                                         border: "2px solid #0D4F94",
                                         color: "#0D4F94",
@@ -197,19 +198,19 @@ const Signup = () => {
                 </div>
             ) : (
                 <div
-                    class="container py-5 d-flex align-items-center justify-content-center"
+                    className="container py-5 d-flex align-items-center justify-content-center"
                     style={{ height: "100vh" }}
                 >
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h1 class="text-center mb-4">
+                    <div className="row">
+                        <div className="col">
+                            <h1 className="text-center mb-4">
                                 Successful registration
                             </h1>
-                            <div class="d-grid gap-2">
+                            <div className="d-grid gap-2">
                                 <a
                                     href="/login"
                                     type="submit"
-                                    class="btn"
+                                    className="btn"
                                     style={{
                                         backgroundColor: "#0D4F94",
                                         border: "none",
@@ -220,7 +221,7 @@ const Signup = () => {
                                 </a>
                             </div>
                             <hr />
-                            <div class="text-center d-flex flex-column">
+                            <div className="text-center d-flex flex-column">
                                 <p
                                     style={{
                                         color: "#0D4F94",

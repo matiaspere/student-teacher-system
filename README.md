@@ -12,7 +12,9 @@ En el archivo `.env`, dentro de DB_DATABASE poner el nombre de la base de datos 
 Luego se debe migrar la base de datos y crear la semillas. Para eso ejecutar el comando:
 
 
-    php artisan migrate --seed
+    php artisan migrate
+	php artisan db:seed --class=UserRolSeeder
+	 php artisan db:seed --class=DatabaseSeeder
 
 Una vez realizado lo necesario para que se puede ejecutar correctamente el servidor y la base de datos, se debe ir a la carpeta donde se encuentran los archivos de React e instalar sus dependencias:
 
