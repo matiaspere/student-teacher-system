@@ -8,18 +8,20 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Navbar from "../components/Navbar";
 
 const Home = () => {
-    const { user, token } = useStateContext();
     const [usersData, setUsersData] = useState([]);
     const [value, setValue] = useState(null);
     const [paginate, setPaginate] = useState(10);
     const [page, setPage] = useState(1);
 
+    // input handler
     const onInputChange = (e) => {
         setPage(1);
         setPaginate(10);
         setValue(e.target.value);
     };
+
     const getUsers = async (value, paginate, page) => {
+        // if user does not input anything, get all the users
         if (value === "") {
             await axios
                 .get(
@@ -32,6 +34,7 @@ const Home = () => {
                     console.log(err);
                 });
         } else {
+            // if user input something, get the users that match the input value
             await axios
                 .get(
                     `http://localhost:8000/api/home/${value}/${paginate}?page=${page}`
@@ -44,7 +47,9 @@ const Home = () => {
                 });
         }
     };
+
     useEffect(() => {
+        // get users each time the value, paginate or page changes
         getUsers(value, paginate, page);
     }, [value, paginate, page]);
 

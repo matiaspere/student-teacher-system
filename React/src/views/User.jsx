@@ -21,6 +21,7 @@ const User = () => {
 
     const getUserData = async () => {
         try {
+            // Get user's data and the evaluations in case the user is a student, or the students in case the user is a teacher
             const { data } = await axiosClient.get("/auth/user");
             setUser(data);
 
@@ -35,12 +36,14 @@ const User = () => {
                 setStudents(studentsData.data);
             }
         } catch (error) {
+            // if got an error, set user and token null and redirect to login
             setUser({});
             setToken(null);
             <Navigate to="/login" />;
         }
     };
 
+    // Function that handles form submission to evaluations endpoint
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(form.current);
@@ -49,17 +52,17 @@ const User = () => {
             teacher_id: parseFloat(user.id),
             student_id: parseFloat(formData.get("student_id")),
             nota: parseFloat(formData.get("nota")),
-            date: selectedDate
+            date: selectedDate,
         };
-
-        console.log(payload)
         axiosClient
             .post("/evaluations", payload)
             .then((data) => {
                 if (data.data.errors) {
+                    // error handling
                     const errorJson = JSON.parse(data.data.errors);
                     setErrors(errorJson);
                 } else {
+                    // show success notification
                     setErrors(null);
                     setShow(true);
                     setTimeout(() => {
@@ -68,6 +71,7 @@ const User = () => {
                 }
             })
             .catch((err) => {
+                // case that user does not exists
                 const response = err.response;
                 if (response && response.status === 500) {
                     const errorObjet = {
