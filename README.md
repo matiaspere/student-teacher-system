@@ -26,9 +26,10 @@ Finalizados estos procesos, estando en esta misma carpeta, se puede ejecutar el 
 
     npm run dev
 
-Por último, volver al directorio raíz y poner a correr el servidor con el comando:
+Por último, volver al directorio raíz, crear una jwt secret key y poner a correr el servidor con el comando:
 
 
+    php artisan jwt:secret
     php artisan serve
 
 A partir de este momento ya se puede comenzar a interactuar con la aplicación.
